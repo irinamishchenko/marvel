@@ -3,27 +3,27 @@ import { NavLink } from "react-router-dom";
 const LINKS = [
   {
     link: "Home",
-    path: "/",
+    path: "/marvel/",
   },
   {
     link: "Characters",
-    path: "/characters",
+    path: "/marvel/characters",
   },
   {
     link: "Comics",
-    path: "/comics",
+    path: "/marvel/comics",
   },
   {
     link: "Events",
-    path: "/events",
+    path: "/marvel/events",
   },
   {
     link: "Series",
-    path: "/series",
+    path: "/marvel/series",
   },
   {
     link: "Creators",
-    path: "/creators",
+    path: "/marvel/creators",
   },
 ];
 
