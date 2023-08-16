@@ -25,30 +25,42 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/marvel/" element={<Layout />}>
           <Route index element={<HomePage />} />
-          <Route path="/characters" element={<CharactersPage />} />
-          <Route path="/characters/:id" element={<SingleCharacterPage />} />
-          <Route path="/comics" element={<ComicsPage />} />
-          <Route path="/comics/:id" element={<SingleComicsPage />} />
-          <Route path="/events" element={<EventsPage />} />
-          <Route path="/events/:id" element={<SingleEventPage />} />
-          <Route path="/series" element={<SeriesPage />} />
-          <Route path="/series/:id" element={<SingleSeriesPage />} />
-          <Route path="/creators" element={<CreatorsPage />} />
-          <Route path="/creators/:id" element={<SingleCreatorPage />} />
-          <Route path="/comics/:name/:id" element={<SpecificComicsPage />} />
+          <Route path="/marvel/characters" element={<CharactersPage />} />
           <Route
-            path="/characters/:name/:id"
+            path="/marvel/characters/:id"
+            element={<SingleCharacterPage />}
+          />
+          <Route path="/marvel/comics" element={<ComicsPage />} />
+          <Route path="/marvel/comics/:id" element={<SingleComicsPage />} />
+          <Route path="/marvel/events" element={<EventsPage />} />
+          <Route path="/marvel/events/:id" element={<SingleEventPage />} />
+          <Route path="/marvel/series" element={<SeriesPage />} />
+          <Route path="/marvel/series/:id" element={<SingleSeriesPage />} />
+          <Route path="/marvel/creators" element={<CreatorsPage />} />
+          <Route path="/marvel/creators/:id" element={<SingleCreatorPage />} />
+          <Route
+            path="/marvel/comics/:name/:id"
+            element={<SpecificComicsPage />}
+          />
+          <Route
+            path="/marvel/characters/:name/:id"
             element={<SpecificCharactersPage />}
           />
           <Route
-            path="/creators/:name/:id"
+            path="/marvel/creators/:name/:id"
             element={<SpecificCreatorsPage />}
           />
-          <Route path="/events/:name/:id" element={<SpecificEventsPage />} />
-          <Route path="/series/:name/:id" element={<SpecificSeriesPage />} />
-          <Route path="*" element={<NotFoundPage />} />
+          <Route
+            path="/marvel/events/:name/:id"
+            element={<SpecificEventsPage />}
+          />
+          <Route
+            path="/marvel/series/:name/:id"
+            element={<SpecificSeriesPage />}
+          />
+          <Route path="/marvel/*" element={<NotFoundPage />} />
         </Route>
       </Routes>
     </>
