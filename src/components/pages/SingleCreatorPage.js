@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import SingleCreator from "../layout/SingleCreator";
+import SingleCreator from "../layout/creators/SingleCreator";
 
 function SingleCreatorPage() {
   useEffect(() => {

@@ -1,56 +1,56 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { BASE_URL } from "./../../API_info";
-import Buttons from "./Buttons";
+import { BASE_URL } from "../../../data/API_info";
+import Buttons from "../Buttons";
 
-function SeriesList() {
-  const [series, setSeries] = useState(null);
+function ComicsList() {
+  const [comics, setComics] = useState(null);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState(null);
+  const [type, setType] = useState(null);
   const [year, setYear] = useState(null);
-  const [order, setOrder] = useState(null);
   const [format, setFormat] = useState(null);
   const [total, setTotal] = useState(null);
   const [offset, setOffset] = useState(0);
 
-  const LIMIT = 96;
+  const LIMIT = 99;
+  const POPULAR_FORMAT = "hardcover";
 
-  async function fetchSeries(search, offset, year, order, format) {
-    if (!search && !year && !order && !format) {
+  async function fetchComics(search, offset, type, year, format) {
+    if (!search && !type && !year && !format) {
       axios
-        .get(BASE_URL + "/series", {
+        .get(BASE_URL + "/comics", {
           params: {
             apikey: process.env.REACT_APP_API_KEY,
-            orderBy: "-modified",
-            contains: "comic",
+            format: POPULAR_FORMAT,
             limit: LIMIT,
             offset: offset,
           },
         })
         .then(
           (response) => (
-            setSeries(response.data.data.results),
+            setComics(response.data.data.results),
             setTotal(response.data.data.total)
           )
         )
         .catch((error) => setError(error.message));
-    } else if (search || year || order || format) {
+    } else if (search || type || year || format) {
       axios
-        .get(BASE_URL + "/series", {
+        .get(BASE_URL + "/comics", {
           params: {
             apikey: process.env.REACT_APP_API_KEY,
             titleStartsWith: search,
-            startYear: year,
-            orderBy: order,
-            contains: format,
             limit: LIMIT,
             offset: offset,
+            formatType: type,
+            startYear: year,
+            format: format,
           },
         })
         .then(
           (response) => (
-            setSeries(response.data.data.results),
+            setComics(response.data.data.results),
             setTotal(response.data.data.total)
           )
         )
@@ -59,30 +59,31 @@ function SeriesList() {
   }
 
   useEffect(() => {
-    fetchSeries();
+    fetchComics();
   }, []);
 
   function handleChange() {
-    fetchSeries(search, offset);
+    fetchComics(search, offset);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    fetchSeries(search, offset, year, order, format);
+    fetchComics(search, offset, type, year, format);
   }
 
   function handlePrevClick() {
     setOffset(offset - LIMIT);
-    fetchSeries(search, offset - LIMIT, year, order, format);
+    fetchComics(search, offset - LIMIT, type, year, format);
     window.scrollTo({
-      top: 300,
+      top: 0,
+      left: 0,
       behavior: "smooth",
     });
   }
 
   function handleNextClick() {
     setOffset(offset + LIMIT);
-    fetchSeries(search, offset + LIMIT, year, order, format);
+    fetchComics(search, offset + LIMIT, type, year, format);
     window.scrollTo({
       top: 300,
       behavior: "smooth",
@@ -95,32 +96,23 @@ function SeriesList() {
         <h2 className="error-message">{error}</h2>
       </div>
     );
-  } else if (series) {
-    const SERIES_ITEMS = series.map((item) => (
-      <li key={item.id} className="series-item">
-        <div className="series-add-info">
-          <Link to={"/series/" + item.id} className="series-add-info-btn">
+  } else if (comics) {
+    const COMICS_ITEMS = comics.map((item) => (
+      <li key={item.id} className="comics-item">
+        <div className="comics-add-info">
+          <Link to={"/comics/" + item.id} className="comics-add-info-btn">
             More
           </Link>
         </div>
         <img
-          className="series-item-picture"
+          className="comics-item-picture"
           src={item.thumbnail.path + "." + item.thumbnail.extension}
           alt={item.title}
         />
-        <h2 className="series-item-title">{item.title}</h2>
-        <p className="series-item-date">
-          {item.startYear}-{item.endYear}
-        </p>
+        <h2 className="comics-item-title">{item.title}</h2>
       </li>
     ));
-    const ORDERS = ["title", "modified", "startYear"];
     const FORMATS = ["comic", "magazine", "hardcover", "digest"];
-    const ORDERS_ITEMS = ORDERS.map((order) => (
-      <option key={order} value={order}>
-        {order}
-      </option>
-    ));
     const FORMAT_ITEMS = FORMATS.map((format) => (
       <option key={format} value={format}>
         {format}
@@ -128,51 +120,67 @@ function SeriesList() {
     ));
     const SEARCH_FORM = (
       <form
-        className="series-form"
+        className="comics-form"
         onChange={handleChange}
         onSubmit={handleSubmit}
       >
         <input
-          className="series-title-input"
+          className="comics-title-input"
           type="text"
           placeholder="title"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <label className="series-year-title">
+        <div className="comics-type-wrapper">
+          <h3>Type:</h3>
+          <label className="comics-type-title">
+            <input
+              className="comics-type-input"
+              type="radio"
+              id="comic"
+              name="type"
+              value="comic"
+              onChange={(e) => setType(e.target.value)}
+            />
+            comic
+          </label>
+          <label className="comics-type-title">
+            <input
+              className="comics-type-input"
+              type="radio"
+              id="collection"
+              name="type"
+              value="collection"
+              onChange={(e) => setType(e.target.value)}
+            />
+            collection
+          </label>
+        </div>
+        <label className="comics-year-title">
           Start year:{" "}
           <input
-            className="series-year-input"
+            className="comics-year-input"
             type="text"
             value={year}
             onChange={(e) => setYear(e.target.value)}
           />
         </label>
-        <label className="series-order-title">
-          Order by:
-          <select
-            className="series-order-select"
-            onChange={(e) => setOrder(e.target.value)}
-          >
-            {ORDERS_ITEMS}
-          </select>
-        </label>
-        <label className="series-format-title">
+        <label className="comics-format-title">
           Format:
           <select
-            className="series-order-select"
+            className="comics-format-select"
             onChange={(e) => setFormat(e.target.value)}
           >
             {FORMAT_ITEMS}
           </select>
         </label>
-        <input className="series-form-button" type="submit" value="Search" />
+        <input className="comics-form-button" type="submit" value="Search" />
       </form>
     );
     return (
       <>
         {SEARCH_FORM}
-        <ul className="series-list">{SERIES_ITEMS}</ul>
+        <ul className="comics-list">{COMICS_ITEMS}</ul>
         <Buttons
           onPrevClick={handlePrevClick}
           onNextClick={handleNextClick}
@@ -185,4 +193,4 @@ function SeriesList() {
   }
 }
 
-export default SeriesList;
+export default ComicsList;

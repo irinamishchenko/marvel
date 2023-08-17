@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import { BASE_URL } from "./../../API_info";
+import { BASE_URL } from "../../../data/API_info";
 
 function SpecificSeries() {
   const PARAMS = useParams();
@@ -10,12 +10,14 @@ function SpecificSeries() {
   const [series, setSeries] = useState(null);
   const [error, setError] = useState(null);
 
+  const LIMIT = 100;
+
   async function fetchEventsSeries() {
     axios
       .get(BASE_URL + "/series?" + NAME + "=" + ID, {
         params: {
           apikey: process.env.REACT_APP_API_KEY,
-          limit: 100,
+          limit: LIMIT,
         },
       })
       .then((response) => setSeries(response.data.data.results))

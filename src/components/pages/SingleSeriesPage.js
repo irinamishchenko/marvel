@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import SingleSeries from "../layout/SingleSeries";
+import SingleSeries from "../layout/series/SingleSeries";
 
 function SingleComicsPage() {
   useEffect(() => {

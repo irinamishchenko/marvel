@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import CharactersList from "../layout/CharactersList";
+import CharactersList from "../layout/characters/CharactersList";
 
 function CharactersPage() {
   useEffect(() => {

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { BASE_URL } from "./../../API_info";
-import Buttons from "./Buttons";
+import { BASE_URL } from "../../../data/API_info";
+import Buttons from "../Buttons";
 
 function CreatorsList() {
   const [creators, setCreators] = useState(null);
@@ -11,13 +11,14 @@ function CreatorsList() {
   const [offset, setOffset] = useState(0);
 
   const LIMIT = 48;
+  const POPULAR_ORDER = "-modified";
 
   async function fetchCreators(offset) {
     axios
       .get(BASE_URL + "/creators", {
         params: {
           apikey: process.env.REACT_APP_API_KEY,
-          orderBy: "-modified",
+          orderBy: POPULAR_ORDER,
           limit: LIMIT,
           offset: offset,
         },

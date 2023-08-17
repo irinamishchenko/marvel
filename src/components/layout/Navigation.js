@@ -1,35 +1,9 @@
 import { NavLink } from "react-router-dom";
-
-const LINKS = [
-  {
-    link: "Home",
-    path: "/",
-  },
-  {
-    link: "Characters",
-    path: "/characters",
-  },
-  {
-    link: "Comics",
-    path: "/comics",
-  },
-  {
-    link: "Events",
-    path: "/events",
-  },
-  {
-    link: "Series",
-    path: "/series",
-  },
-  {
-    link: "Creators",
-    path: "/creators",
-  },
-];
+import { NAV_LINKS } from "../../data/nav_links";
 
 function Navigation(props) {
   const isMenuActive = props.isMenuActive;
-  const NAV_ITEMS = LINKS.map((item) => (
+  const NAV_ITEMS = NAV_LINKS.map((item) => (
     <li key={item.link}>
       <NavLink to={item.path} className="navigation-item">
         {item.link}

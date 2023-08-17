@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import EventsList from "../layout/EventsList";
+import EventsList from "../layout/events/EventsList";
 
 function EventsPage() {
   useEffect(() => {

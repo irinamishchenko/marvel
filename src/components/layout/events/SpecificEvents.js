@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import { BASE_URL } from "./../../API_info";
+import { BASE_URL } from "../../../data/API_info";
 
 function SpecificEvents() {
   const PARAMS = useParams();
@@ -10,12 +10,14 @@ function SpecificEvents() {
   const [events, setEvents] = useState(null);
   const [error, setError] = useState(null);
 
+  const LIMIT = 100;
+
   async function fetchCharacterEvents() {
     axios
       .get(BASE_URL + "/events?" + NAME + "=" + ID, {
         params: {
           apikey: process.env.REACT_APP_API_KEY,
-          limit: 100,
+          limit: LIMIT,
         },
       })
       .then((response) => setEvents(response.data.data.results))

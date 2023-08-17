@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import { BASE_URL } from "./../../API_info";
-import Buttons from "./Buttons";
+import { BASE_URL } from "../../../data/API_info";
+import Buttons from "../Buttons";
 
-function SpecificComics() {
+function SpecificCreators() {
   const PARAMS = useParams();
   const ID = PARAMS.id;
   const NAME = PARAMS.name;
-  const [comics, setComics] = useState(null);
+  const [creators, setCreators] = useState(null);
   const [total, setTotal] = useState(null);
   const [error, setError] = useState(null);
   const [offset, setOffset] = useState(0);
 
   const LIMIT = 99;
 
-  async function fetchCharacterComics(offset) {
+  async function fetchEventsCreators(offset) {
     axios
-      .get(BASE_URL + "/comics?" + NAME + "=" + ID, {
+      .get(BASE_URL + "/creators?" + NAME + "=" + ID, {
         params: {
           apikey: process.env.REACT_APP_API_KEY,
           limit: LIMIT,
@@ -26,7 +26,7 @@ function SpecificComics() {
       })
       .then(
         (response) => (
-          setComics(response.data.data.results),
+          setCreators(response.data.data.results),
           setTotal(response.data.data.total)
         )
       )
@@ -34,13 +34,12 @@ function SpecificComics() {
   }
 
   useEffect(() => {
-    fetchCharacterComics();
+    fetchEventsCreators();
   }, []);
 
   function handlePrevClick() {
     setOffset(offset - LIMIT);
-    fetchCharacterComics(offset - LIMIT);
-    console.log("Prev click");
+    fetchEventsCreators(offset - LIMIT);
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -49,8 +48,7 @@ function SpecificComics() {
 
   function handleNextClick() {
     setOffset(offset + LIMIT);
-    fetchCharacterComics(offset + LIMIT);
-    console.log("Next click");
+    fetchEventsCreators(offset + LIMIT);
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -63,26 +61,29 @@ function SpecificComics() {
         <h2 className="error-message">{error}</h2>
       </div>
     );
-  } else if (comics) {
-    const COMICS_ITEMS = comics.map((item) => (
-      <li key={item.id} className="comics-item">
-        <div className="comics-add-info">
-          <Link to={"/comics/" + item.id} className="comics-add-info-btn">
+  } else if (creators) {
+    const CREATORS_ITEMS = creators.map((creator, index) => (
+      <li className="creator-list-item" key={index}>
+        <h3 className="creator-name">{creator.fullName}</h3>
+        <p className="creator-info">
+          Created {creator.comics.available} comics
+        </p>
+        <div className="creator-add-info">
+          <Link to={"/creators/" + creator.id} className="creator-add-info-btn">
             More
           </Link>
         </div>
         <img
-          className="comics-item-picture"
-          src={item.thumbnail.path + "." + item.thumbnail.extension}
-          alt={item.title}
+          className="creator-picture"
+          src={creator.thumbnail.path + "." + creator.thumbnail.extension}
+          alt={creator.fullName}
         />
-        <h2 className="comics-item-title">{item.title}</h2>
       </li>
     ));
 
     return (
       <>
-        <ul className="comics-list">{COMICS_ITEMS}</ul>
+        <ul className="creators-list">{CREATORS_ITEMS}</ul>
         <Buttons
           onPrevClick={handlePrevClick}
           onNextClick={handleNextClick}
@@ -95,4 +96,4 @@ function SpecificComics() {
   }
 }
 
-export default SpecificComics;
+export default SpecificCreators;

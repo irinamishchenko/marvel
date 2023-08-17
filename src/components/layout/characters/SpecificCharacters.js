@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-import { BASE_URL } from "./../../API_info";
-import Buttons from "./Buttons";
+import { BASE_URL } from "../../../data/API_info";
+import Buttons from "../Buttons";
 
 function SpecificCharacters() {
   const PARAMS = useParams();

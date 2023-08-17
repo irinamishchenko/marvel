@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import ComicsList from "../layout/ComicsList";
+import ComicsList from "../layout/comics/ComicsList";
 
 function ComicsPage() {
   useEffect(() => {

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import SpecificEvents from "./../layout/SpecificEvents";
+import SpecificEvents from "./../layout/events/SpecificEvents";
 
 function SpecificEventsPage() {
   useEffect(() => {

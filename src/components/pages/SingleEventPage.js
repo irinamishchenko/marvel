@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import SingleEvent from "./../layout/SingleEvent";
+import SingleEvent from "./../layout/events/SingleEvent";
 
 function SingleEventPage() {
   useEffect(() => {

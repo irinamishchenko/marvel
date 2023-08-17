@@ -1,51 +1,50 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { BASE_URL } from "./../../API_info";
-import Buttons from "./Buttons";
+import { BASE_URL } from "../../../data/API_info";
+import Buttons from "../Buttons";
 
-function EventsList() {
-  const [events, setEvents] = useState(null);
+function CharactersList() {
+  const [characters, setCharacters] = useState(null);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState(null);
-  const [order, setOrder] = useState(null);
   const [total, setTotal] = useState(null);
   const [offset, setOffset] = useState(0);
 
   const LIMIT = 99;
+  const POPULAR_EVENT = 310;
 
-  async function fetchEvents(search, offset, order) {
-    if (!search && !order) {
+  async function fetchCharacters(search, offset) {
+    if (!search) {
       axios
-        .get(BASE_URL + "/events", {
+        .get(BASE_URL + "/characters", {
           params: {
             apikey: process.env.REACT_APP_API_KEY,
-            orderBy: "-startDate",
+            events: POPULAR_EVENT,
             limit: LIMIT,
             offset: offset,
           },
         })
         .then(
           (response) => (
-            setEvents(response.data.data.results),
+            setCharacters(response.data.data.results),
             setTotal(response.data.data.total)
           )
         )
         .catch((error) => setError(error.message));
-    } else if (search || order) {
+    } else if (search) {
       axios
-        .get(BASE_URL + "/events", {
+        .get(BASE_URL + "/characters", {
           params: {
             apikey: process.env.REACT_APP_API_KEY,
             nameStartsWith: search,
             limit: LIMIT,
             offset: offset,
-            orderBy: order,
           },
         })
         .then(
           (response) => (
-            setEvents(response.data.data.results),
+            setCharacters(response.data.data.results),
             setTotal(response.data.data.total)
           )
         )
@@ -54,21 +53,21 @@ function EventsList() {
   }
 
   useEffect(() => {
-    fetchEvents();
+    fetchCharacters();
   }, []);
 
   function handleChange() {
-    fetchEvents(search, offset);
+    fetchCharacters(search, offset);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    fetchEvents(search, offset, order);
+    fetchCharacters(search, offset);
   }
 
   function handlePrevClick() {
     setOffset(offset - LIMIT);
-    fetchEvents(search, offset - LIMIT, order);
+    fetchCharacters(search, offset - LIMIT);
     window.scrollTo({
       top: 300,
       behavior: "smooth",
@@ -77,7 +76,7 @@ function EventsList() {
 
   function handleNextClick() {
     setOffset(offset + LIMIT);
-    fetchEvents(search, offset + LIMIT, order);
+    fetchCharacters(search, offset + LIMIT);
     window.scrollTo({
       top: 300,
       behavior: "smooth",
@@ -90,58 +89,50 @@ function EventsList() {
         <h2 className="error-message">{error}</h2>
       </div>
     );
-  } else if (events) {
-    const EVENTS_ITEMS = events.map((event) => (
-      <li key={event.id} className="events-item">
-        <img
-          className="event-item-picture"
-          src={event.thumbnail.path + "." + event.thumbnail.extension}
-          alt={event.title}
-        />
-        <div className="event-item-info">
-          <h2 className="event-item-title">{event.title}</h2>
-          <p className="event-item-description">{event.description}</p>
-          <Link to={"/events/" + event.id} className="event-item-button">
+  } else if (characters) {
+    const CHARACTERS_ITEMS = characters.map((character) => (
+      <li key={character.id} className="characters-item">
+        <div className="character-add-info">
+          <Link
+            className="character-add-info-btn"
+            to={"/characters/" + character.id}
+          >
             More
           </Link>
         </div>
+        <img
+          className="characters-item-picture"
+          src={character.thumbnail.path + "." + character.thumbnail.extension}
+          alt={character.name}
+        />
+        <h2 className="characters-item-name">{character.name}</h2>
       </li>
-    ));
-    const ORDERS = ["name", "startDate"];
-    const ORDERS_ITEMS = ORDERS.map((order) => (
-      <option key={order} value={order}>
-        {order}
-      </option>
     ));
     const SEARCH_FORM = (
       <form
-        className="events-form"
+        className="characters-form"
         onChange={handleChange}
         onSubmit={handleSubmit}
       >
         <input
-          className="events-title-input"
+          className="characters-input"
           type="text"
-          placeholder="title"
+          placeholder="name"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <label className="events-order-title">
-          Order by:
-          <select
-            className="events-order-select"
-            onChange={(e) => setOrder(e.target.value)}
-          >
-            {ORDERS_ITEMS}
-          </select>
-        </label>
-        <input className="events-form-button" type="submit" value="Search" />
+        <input
+          className="characters-form-button"
+          type="submit"
+          value="Search"
+        />
       </form>
     );
+
     return (
       <>
         {SEARCH_FORM}
-        <ul className="events-list">{EVENTS_ITEMS}</ul>
+        <ul className="characters-list">{CHARACTERS_ITEMS}</ul>
         <Buttons
           onPrevClick={handlePrevClick}
           onNextClick={handleNextClick}
@@ -154,4 +145,4 @@ function EventsList() {
   }
 }
 
-export default EventsList;
+export default CharactersList;

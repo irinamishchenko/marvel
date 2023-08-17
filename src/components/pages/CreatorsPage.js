@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import CreatorsList from "../layout/CreatorsList";
+import CreatorsList from "../layout/creators/CreatorsList";
 
 function CreatorsPage() {
   useEffect(() => {

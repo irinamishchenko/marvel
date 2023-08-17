@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import SpecificCharacters from "./../layout/SpecificCharacters";
+import SpecificCharacters from "./../layout/characters/SpecificCharacters";
 
 function SpecificCharactersPage() {
   useEffect(() => {

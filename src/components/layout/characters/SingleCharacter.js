@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { BASE_URL } from "./../../API_info";
-import ComicsInfo from "./ComicsInfo";
-import EventsInfo from "./EventsInfo";
-import SeriesInfo from "./SeriesInfo";
+import { BASE_URL } from "../../../data/API_info";
+import ComicsInfo from "../comics/ComicsInfo";
+import EventsInfo from "../events/EventsInfo";
+import SeriesInfo from "../series/SeriesInfo";
 
 function SingleCharacter() {
   const PARAMS = useParams();

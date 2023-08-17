@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import SingleCharacter from "../layout/SingleCharacter";
+import SingleCharacter from "../layout/characters/SingleCharacter";
 
 function SingleCharacterPage() {
   useEffect(() => {

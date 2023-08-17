@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import SpecificComics from "./../layout/SpecificComics";
+import SpecificComics from "./../layout/comics/SpecificComics";
 
 function SpecificComicsPage() {
   useEffect(() => {

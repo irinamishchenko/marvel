@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import SpecificCreators from "./../layout/SpecificCreators";
+import SpecificCreators from "./../layout/creators/SpecificCreators";
 
 function SpecificCreatorsPage() {
   useEffect(() => {

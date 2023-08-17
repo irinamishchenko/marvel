@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import SeriesList from "../layout/SeriesList";
+import SeriesList from "../layout/series/SeriesList";
 
 function SeriesPage() {
   useEffect(() => {
